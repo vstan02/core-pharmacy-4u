@@ -1,0 +1,32 @@
+.navbar {
+	width: 400px;
+
+	&__list {
+		list-style: none;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	&__item {
+		width: 200px;
+		height: 50px;
+		margin-right: 2px;
+		transition: text-shadow 0.5s;
+
+		&:hover {
+			text-shadow: 0 0 1px #777777;
+		}
+	}
+
+	&__link {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #222222;
+		font-size: 18px;
+		text-decoration: none;
+	}
+}

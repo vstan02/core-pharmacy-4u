@@ -1,0 +1,39 @@
+@import 'mixins/button';
+@import 'mixins/input';
+@import 'mixins/bg-image';
+
+.auth {
+	@include bg-image;
+	height: calc(100vh - 70px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	&__title {
+		font-size: 40px;
+		margin-bottom: 30px;
+
+		&-colored {
+			color: #00AAFF;
+			text-shadow: 0 0 1px #444444;
+		}
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__input {
+		@include input(400px, 40px);
+		margin-bottom: 20px;
+	}
+
+	&__button {
+		@include button(200px, 40px);
+		background-color: #00AAFF;
+	}
+}

@@ -1,0 +1,40 @@
+@import 'mixins/bg-image';
+
+.error {
+	@include bg-image;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&__title {
+		color: #444444;
+		font-size: 70px;
+		text-shadow: 0 0 1px #444444;
+		z-index: 1;
+	}
+
+	&__description {
+		color: #00AAFF;
+		text-shadow: 0 0 2px #444444;
+		z-index: 1;
+	}
+
+	&__link {
+		z-index: 1;
+		color: white;
+		text-shadow: 0 0 2px black;
+		font-size: 24px;
+		text-decoration: none;
+		margin-top: 20px;
+	}
+
+	&__particles {
+		z-index: 0;
+		position: absolute;
+		width: 100%;
+		height: inherit;
+		overflow: hidden;
+	}
+}
