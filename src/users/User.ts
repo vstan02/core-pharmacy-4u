@@ -16,19 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database } from '../database';
-import { UsersController } from '../users';
+import { Entity } from '../database';
 
-class App {
-	private readonly $database: Database;
-
-	public constructor(database: Database) {
-		this.$database = database;
-	}
-
-	public get users(): UsersController {
-		return new UsersController(this.$database);
-	}
+interface User extends Entity {
+	username?: string;
+	password?: string;
 }
 
-export default App;
+export default User;

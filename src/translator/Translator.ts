@@ -28,7 +28,7 @@ class Translator {
 	private readonly $locale: string;
 
 	public constructor(locale: string) {
-		this.$locale = locale in Translator.locales ? locale : Translator.locales[0];
+		this.$locale = Translator.locales.indexOf(locale) > -1 ? locale : Translator.locales[0];
 	}
 
 	public translate(text: string): string {

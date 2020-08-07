@@ -16,12 +16,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { App } from './core';
+import { Repository } from './repository';
 import { Server } from './server';
 
 import { HomeRoute, ErrorRoute } from './pages';
+import { AuthRoute } from './auth';
 
 import * as config from './config';
 
+const database = new Repository();
+const app = new App(database);
 const server = new Server({
 	port: config.PORT,
 	host: config.HOST,
@@ -35,6 +40,7 @@ const server = new Server({
 
 server.routes = [
 	new HomeRoute('/'),
+	new AuthRoute('/auth', app),
 	new ErrorRoute('*')
 ];
 

@@ -16,19 +16,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database } from '../database';
-import { UsersController } from '../users';
+import { Entity } from '../database';
 
-class App {
-	private readonly $database: Database;
-
-	public constructor(database: Database) {
-		this.$database = database;
-	}
-
-	public get users(): UsersController {
-		return new UsersController(this.$database);
-	}
+abstract class Controller<Type extends Entity> {
+	public abstract async get(id: string): Promise<Type>;
+	public abstract async getAll(): Promise<Array<Type>>;
+	public abstract async create(entity: Type): Promise<string>;
+	public abstract async update(id: string, data: Type): Promise<void>;
+	public abstract async delete(id: string): Promise<void>;
 }
 
-export default App;
+export default Controller;

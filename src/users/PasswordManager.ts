@@ -16,19 +16,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database } from '../database';
-import { UsersController } from '../users';
+import { hashSync } from 'bcrypt';
 
-class App {
-	private readonly $database: Database;
-
-	public constructor(database: Database) {
-		this.$database = database;
-	}
-
-	public get users(): UsersController {
-		return new UsersController(this.$database);
+class PasswordManager {
+	public create(password: string): string {
+		return hashSync(password, 12);
 	}
 }
 
-export default App;
+export default PasswordManager;

@@ -16,19 +16,23 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database } from '../database';
-import { UsersController } from '../users';
+import { App } from '../core';
+import { Controller } from '../controllers';
 
-class App {
-	private readonly $database: Database;
+class AuthService {
+	private $users: Controller<any>;
 
-	public constructor(database: Database) {
-		this.$database = database;
+	public constructor(app: App) {
+		this.$users = app.users;
 	}
 
-	public get users(): UsersController {
-		return new UsersController(this.$database);
+	public login(username: string, password: string): void {
+		console.log({ username, password });
+	}
+
+	public async register(username: string, password: string): Promise<void> {
+		await this.$users.create({ username, password });
 	}
 }
 
-export default App;
+export default AuthService;
