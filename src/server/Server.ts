@@ -18,15 +18,20 @@
 
 import * as express from 'express';
 
-import { App } from '../core';
 import { Route } from '../routes';
+import { Translator } from '../translator';
+
+interface TranslatorConfig {
+	locales: Array<string>;
+	directory: string;
+}
 
 interface ServerConfig {
 	port: number;
 	host: string;
 	static: string;
-	locales: string;
 	views: string;
+	translator: TranslatorConfig;
 }
 
 class Server {
@@ -34,12 +39,13 @@ class Server {
 	private readonly $host: string;
 	private readonly $app: express.Application;
 
-	public constructor(app: App, config: ServerConfig) {
+	public constructor(config: ServerConfig) {
 		this.$port = config.port;
 		this.$host = config.host;
 		this.$app = express();
 		this.static = config.static;
 		this.views = config.views;
+		this.translator = config.translator;
 	}
 
 	public run(): void {
@@ -79,7 +85,11 @@ class Server {
 		this.$app.set('views', path);
 	}
 
-	private set routes(routes: Array<Route>) {
+	private set translator(config: TranslatorConfig) {
+		Translator.configure(config);
+	}
+
+	public set routes(routes: Array<Route>) {
 		routes.map((route: Route) => { this.route = route });
 	}
 

@@ -16,14 +16,26 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { resolve } from 'path';
+import { Request, Response } from 'express';
 
-// Translator:
-export const TRANSL_LOCALES = ['en', 'fr', 'it', 'de'];
-export const TRANSL_DIR = resolve(__dirname, '../locales');
+import { Route } from '../routes';
+import { Translator } from '../translator';
 
-// Server:
-export const PORT = Number(process.env.PORT) || 3000;
-export const HOST = process.env.HOST || 'localhost';
-export const STATIC = resolve(__dirname, '../static');
-export const VIEWS = resolve(__dirname, '../views/pages');
+class ErrorRoute extends Route {
+	public constructor(path: string) {
+		super(path);
+		this.$router.all('/', this.index);
+	}
+
+	public index(request: Request, response: Response): void {
+		const transl = new Translator(request.query.lang as string);
+
+		return response.render('error.ejs', {
+			status: 404,
+			message: 'Page not found',
+			description: transl.translate('description')
+		});
+	}
+}
+
+export default ErrorRoute;

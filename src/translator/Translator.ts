@@ -16,14 +16,30 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { resolve } from 'path';
+import * as i18n from 'i18n';
 
-// Translator:
-export const TRANSL_LOCALES = ['en', 'fr', 'it', 'de'];
-export const TRANSL_DIR = resolve(__dirname, '../locales');
+interface TranslatorConfig {
+	locales: Array<string>;
+	directory: string;
+}
 
-// Server:
-export const PORT = Number(process.env.PORT) || 3000;
-export const HOST = process.env.HOST || 'localhost';
-export const STATIC = resolve(__dirname, '../static');
-export const VIEWS = resolve(__dirname, '../views/pages');
+class Translator {
+	private static locales: Array<string>;
+	private readonly $locale: string;
+
+	public constructor(locale: string) {
+		this.$locale = locale in Translator.locales ? locale : Translator.locales[0];
+	}
+
+	public translate(text: string): string {
+		i18n.setLocale(this.$locale);
+		return i18n.__(text);
+	}
+
+	public static configure(config: TranslatorConfig): void {
+		i18n.configure(config);
+		Translator.locales = config.locales;
+	}
+}
+
+export default Translator;

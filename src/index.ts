@@ -16,20 +16,26 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { App } from './core';
-import { Repository } from './repository';
 import { Server } from './server';
 
-import { PORT, HOST, STATIC, LOCALES, VIEWS } from './config';
+import { HomeRoute, ErrorRoute } from './pages';
 
-const database = new Repository();
-const app = new App(database);
-const server = new Server(app, {
-	port: PORT,
-	host: HOST,
-	static: STATIC,
-	locales: LOCALES,
-	views: VIEWS
+import * as config from './config';
+
+const server = new Server({
+	port: config.PORT,
+	host: config.HOST,
+	static: config.STATIC,
+	views: config.VIEWS,
+	translator: {
+		locales: config.TRANSL_LOCALES,
+		directory: config.TRANSL_DIR
+	}
 });
+
+server.routes = [
+	new HomeRoute('/'),
+	new ErrorRoute('*')
+];
 
 export default server.run();
