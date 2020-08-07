@@ -10,64 +10,64 @@ function isCollection(object: object): boolean {
 	);
 }
 
-describe('Store', () => {
-	let store: Repository;
+describe('Repository', () => {
+	let repo: Repository;
 
 	describe('constructor', () => {
 		it('should do not throw any error', () => {
 			expect(() => {
-				store = new Repository();
+				repo = new Repository();
 			}).not.toThrow();
 		});
 	});
 
 	describe('users', () => {
 		it('should be defined', () => {
-			expect(store.users).toBeDefined();
+			expect(repo.users).toBeDefined();
 		});
 
 		it('should be a collection', () => {
-			expect(isCollection(store.users)).toBe(true);
+			expect(isCollection(repo.users)).toBe(true);
 		});
 	});
 
 	describe('posts', () => {
 		it('should be defined', () => {
-			expect(store.posts).toBeDefined();
+			expect(repo.posts).toBeDefined();
 		});
 
 		it('should be a collection', () => {
-			expect(isCollection(store.posts)).toBe(true);
+			expect(isCollection(repo.posts)).toBe(true);
 		});
 	});
 
 	describe('categories', () => {
 		it('should be defined', () => {
-			expect(store.categories).toBeDefined();
+			expect(repo.categories).toBeDefined();
 		});
 
 		it('should be a collection', () => {
-			expect(isCollection(store.categories)).toBe(true);
+			expect(isCollection(repo.categories)).toBe(true);
 		});
 	});
 
 	describe('products', () => {
 		it('should be defined', () => {
-			expect(store.products).toBeDefined();
+			expect(repo.products).toBeDefined();
 		});
 
 		it('should be a collection', () => {
-			expect(isCollection(store.products)).toBe(true);
+			expect(isCollection(repo.products)).toBe(true);
 		});
 	});
 
 	describe('comments', () => {
 		it('should be defined', () => {
-			expect(store.comments).toBeDefined();
+			expect(repo.comments).toBeDefined();
 		});
 
 		it('should be a collection', () => {
-			expect(isCollection(store.comments)).toBe(true);
+			expect(isCollection(repo.comments)).toBe(true);
 		});
 	});
 });
