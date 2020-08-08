@@ -16,23 +16,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
-
-import { Route } from '../routes';
-import { Translator } from '../translator';
-
-class HomeRoute extends Route {
-	public constructor(path: string) {
-		super(path);
-		this.$router.get('/', this.index);
-	}
-
-	private index(request: Request, response: Response): void {
-		const transl = new Translator(request.query.lang as string);
-		return response.render('index.ejs', {
-			description: transl.translate('description')
-		});
-	}
+enum Status {
+	OK = 200,
+	CREATED = 201,
+	UPDATED = 204,
+	REDIRECT = 307,
+	CONFLICT = 409,
+	INVALID_REQUEST = 422,
+	NOT_FOUND = 404,
+	INTERNAL_ERROR = 500
 }
 
-export default HomeRoute;
+export default Status;

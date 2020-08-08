@@ -21,7 +21,9 @@ import { Request, Response } from 'express';
 import { App } from '../core';
 import { Route } from '../routes';
 import { Translator } from '../translator';
+import { Signal } from '../signals';
 import AuthService from './AuthService';
+import Status from '../signals/Status';
 
 class AuthRoute extends Route {
 	private $auth: AuthService;
@@ -36,7 +38,6 @@ class AuthRoute extends Route {
 
 	private index(request: Request, response: Response): void {
 		const transl = new Translator(request.query.lang as string);
-
 		return response.render('auth.ejs', {
 			description: transl.translate('description')
 		});
@@ -48,8 +49,7 @@ class AuthRoute extends Route {
 		} catch (error) {
 			const transl = new Translator(request.query.lang as string);
 			return response.render('error.ejs', {
-				status: 500,
-				message: 'Internal error',
+				...new Signal(Status.INTERNAL_ERROR, 'Internal error'),
 				description: transl.translate('description')
 			});
 		}

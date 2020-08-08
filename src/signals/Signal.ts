@@ -16,23 +16,36 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
+import Status from './Status';
 
-import { Route } from '../routes';
-import { Translator } from '../translator';
+class Signal {
+	private status: Status;
 
-class HomeRoute extends Route {
-	public constructor(path: string) {
-		super(path);
-		this.$router.get('/', this.index);
+	public constructor(status: Status, data?: string|object) {
+		this.status = status;
+		data && (this.data = data);
 	}
 
-	private index(request: Request, response: Response): void {
-		const transl = new Translator(request.query.lang as string);
-		return response.render('index.ejs', {
-			description: transl.translate('description')
-		});
+	private set data(value: string|object) {
+		this.defineSignalProperties(typeof value === 'string' ? {
+			details: value
+		} : value);
+	}
+
+	private defineSignalProperties(data: object): void {
+		for (const property of Object.keys(data)) {
+			const propertyDescriptor = Object.getOwnPropertyDescriptor(data, property);
+			propertyDescriptor && Object.defineProperty(this, property, propertyDescriptor);
+		}
+	}
+
+	public static from(error: Error|Signal): Signal {
+		if (error instanceof Signal) {
+			return error;
+		}
+
+		return new Signal(500, error.message);
 	}
 }
 
-export default HomeRoute;
+export default Signal;

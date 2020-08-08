@@ -20,6 +20,7 @@ import { Request, Response } from 'express';
 
 import { Route } from '../routes';
 import { Translator } from '../translator';
+import { Signal, Status } from '../signals';
 
 class ErrorRoute extends Route {
 	public constructor(path: string) {
@@ -29,10 +30,8 @@ class ErrorRoute extends Route {
 
 	public index(request: Request, response: Response): void {
 		const transl = new Translator(request.query.lang as string);
-
 		return response.render('error.ejs', {
-			status: 404,
-			message: 'Page not found',
+			...new Signal(Status.NOT_FOUND, 'Not found'),
 			description: transl.translate('description')
 		});
 	}
