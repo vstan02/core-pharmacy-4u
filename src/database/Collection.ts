@@ -20,6 +20,7 @@ import Entity from './Entity';
 
 interface Collection<Type extends Entity> {
 	get(id: string, select?: Array<string>): Promise<Type>;
+	getBy(data: object, select?: Array<string>): Promise<Type>;
 	getAll(select?: Array<string>): Promise<Array<Type>>;
 	create(entity: Type): Promise<string>;
 	update(id: string, entity: Type): Promise<void>;

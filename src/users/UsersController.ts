@@ -18,22 +18,25 @@
 
 import { Database, Collection } from '../database';
 import { Controller } from '../controllers';
+import { Crypto } from '../crypto';
 import User from './User';
-
-import PasswordManager from './PasswordManager';
 
 class UsersController extends Controller<User> {
 	private $users: Collection<User>;
-	private $passManager: PasswordManager;
+	private $crypto: Crypto;
 
 	public constructor(database: Database) {
 		super();
 		this.$users = database.users;
-		this.$passManager = new PasswordManager();
+		this.$crypto = new Crypto();
 	}
 
 	public async get(id: string): Promise<User> {
 		return this.$users.get(id, ['id', 'username']);
+	}
+
+	public async getBy(data: object): Promise<User> {
+		return this.$users.getBy(data, ['id', 'username']);
 	}
 
 	public async getAll(): Promise<Array<User>> {
@@ -42,7 +45,7 @@ class UsersController extends Controller<User> {
 
 	public async create({ username, password }: User): Promise<string> {
 		return this.$users.create({
-			username, password: this.$passManager.create(password!)
+			username, password: this.$crypto.hash(password!)
 		});
 	}
 
@@ -51,12 +54,24 @@ class UsersController extends Controller<User> {
 
 		return this.$users.update(id, Object.assign({},
 			username ? { username } : undefined,
-			password ? { password: this.$passManager.create(password) } : undefined
+			password ? { password: this.$crypto.hash(password) } : undefined
 		));
 	}
 
 	public async delete(id: string): Promise<void> {
 		return this.$users.delete(id);
+	}
+
+	public async compare(id: string, entity: User): Promise<boolean> {
+		const { username, password } = entity;
+		const user = await this.$users.get(id);
+
+		return (
+			username == user.username
+			&& Boolean(password)
+			&& Boolean(user.password)
+			&& this.$crypto.compare(password!, user.password!)
+		);
 	}
 }
 

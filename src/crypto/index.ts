@@ -16,14 +16,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { resolve } from 'path';
+import Crypto from './Crypto';
 
-// Crypto:
-export const TRANSL_LOCALES = ['en', 'fr', 'it', 'de'];
-export const TRANSL_DIR = resolve(__dirname, '../locales');
-
-// Server:
-export const PORT = Number(process.env.PORT) || 3000;
-export const HOST = process.env.HOST || 'localhost';
-export const STATIC = resolve(__dirname, '../static');
-export const VIEWS = resolve(__dirname, '../views/pages');
+export { Crypto };

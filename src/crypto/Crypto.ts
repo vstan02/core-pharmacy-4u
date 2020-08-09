@@ -16,12 +16,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { hashSync } from 'bcrypt';
+import { hashSync, compareSync } from 'bcrypt';
 
-class PasswordManager {
-	public create(password: string): string {
-		return hashSync(password, 12);
+class Crypto {
+	public hash(text: string): string {
+		return hashSync(text, 12);
+	}
+
+	public compare(text: string, encrypted: string): boolean {
+		return compareSync(text, encrypted);
 	}
 }
 
-export default PasswordManager;
+export default Crypto;

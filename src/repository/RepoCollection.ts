@@ -36,6 +36,17 @@ class RepoCollection<Type extends Entity> implements Collection<Type> {
 		return this.select(entity, select);
 	}
 
+	public async getBy(data: object, select?: Array<string>): Promise<Type> {
+		const result = Array.from(this.$entities.values())
+			.filter((entity: Type) => this.compare(entity, data))[0];
+
+		if (!result) {
+			throw new Error('Entity not found!');
+		}
+
+		return this.select(result, select);
+	}
+
 	public async getAll(select?: Array<string>): Promise<Array<Type>> {
 		return Array.from(this.$entities.values())
 			.map((entity: Type) => this.select(entity, select));
@@ -71,6 +82,19 @@ class RepoCollection<Type extends Entity> implements Collection<Type> {
 			const value = this.getObjectProperty(entity, prop);
 			return value ? { [prop]: value } : undefined;
 		}));
+	}
+
+	private compare(first: object, second: object): boolean {
+		for (const property of Object.keys(second)) {
+			const value1 = this.getObjectProperty(first, property);
+			const value2 = this.getObjectProperty(second, property);
+
+			if (value1 !== value2) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private getObjectProperty(object: object, prop: string): any {

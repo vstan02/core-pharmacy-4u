@@ -18,6 +18,7 @@
 
 import { App } from '../core';
 import { Controller } from '../controllers';
+import { Signal, Status } from '../signals';
 
 class AuthService {
 	private $users: Controller<any>;
@@ -26,8 +27,11 @@ class AuthService {
 		this.$users = app.users;
 	}
 
-	public login(username: string, password: string): void {
-		console.log({ username, password });
+	public async login(username: string, password: string): Promise<void> {
+		const user = await this.$users.getBy({ username });
+		if (!await this.$users.compare(user.id, { username, password })) {
+			throw new Signal(Status.INVALID_REQUEST, 'Invalid credentials');
+		}
 	}
 
 	public async register(username: string, password: string): Promise<void> {

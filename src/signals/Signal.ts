@@ -44,7 +44,12 @@ class Signal {
 			return error;
 		}
 
-		return new Signal(500, error.message);
+		return new Signal(Status.INTERNAL_ERROR, this.getErrorMessage(error));
+	}
+
+	private static getErrorMessage(error: Error): string {
+		return process.env.NODE_ENV === 'production'
+			? 'Internal error' : error.message.replace('.', '');
 	}
 }
 

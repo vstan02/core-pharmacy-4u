@@ -14,7 +14,7 @@
     "build": "npm run assets && tsc -p .",
     "test": "jest --silent --forceExit --detectOpenHandles || true",
     "dev": "npm run lint && ts-node src/index.ts",
-    "start": "npm run lint && npm run build && node dist/server.js"
+    "start": "npm run lint && npm run build && NODE_ENV=production node dist/index.js"
   },
   "engines": {
     "node": ">= 12.0.0",

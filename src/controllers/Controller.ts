@@ -20,10 +20,12 @@ import { Entity } from '../database';
 
 abstract class Controller<Type extends Entity> {
 	public abstract async get(id: string): Promise<Type>;
+	public abstract async getBy(data: object): Promise<Type>;
 	public abstract async getAll(): Promise<Array<Type>>;
 	public abstract async create(entity: Type): Promise<string>;
 	public abstract async update(id: string, data: Type): Promise<void>;
 	public abstract async delete(id: string): Promise<void>;
+	public abstract async compare(id: string, entity: Type): Promise<boolean>;
 }
 
 export default Controller;

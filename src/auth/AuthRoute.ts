@@ -16,14 +16,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Request, Response } from 'express';
+import { Request, Response, urlencoded } from 'express';
 
 import { App } from '../core';
 import { Route } from '../routes';
 import { Translator } from '../translator';
 import { Signal } from '../signals';
 import AuthService from './AuthService';
-import Status from '../signals/Status';
 
 class AuthRoute extends Route {
 	private $auth: AuthService;
@@ -32,8 +31,10 @@ class AuthRoute extends Route {
 		super(path);
 		this.$auth = new AuthService(app);
 
+		const middleware = urlencoded({ extended: false });
 		this.$router.get('/', this.index);
-		this.$router.post('/register', this.register.bind(this));
+		this.$router.post('/login', middleware, this.login.bind(this));
+		this.$router.post('/register', middleware, this.register.bind(this));
 	}
 
 	private index(request: Request, response: Response): void {
@@ -43,13 +44,29 @@ class AuthRoute extends Route {
 		});
 	}
 
-	private register(request: Request, response: Response): void {
+	private async login(request: Request, response: Response): Promise<void> {
 		try {
+			const { username, password } = request.body;
+			await this.$auth.login(username, password);
 			return response.redirect('/');
 		} catch (error) {
 			const transl = new Translator(request.query.lang as string);
 			return response.render('error.ejs', {
-				...new Signal(Status.INTERNAL_ERROR, 'Internal error'),
+				...Signal.from(error),
+				description: transl.translate('description')
+			});
+		}
+	}
+
+	private async register(request: Request, response: Response): Promise<void> {
+		try {
+			const { username, password } = request.body;
+			await this.$auth.register(username, password);
+			return response.redirect('/');
+		} catch (error) {
+			const transl = new Translator(request.query.lang as string);
+			return response.render('error.ejs', {
+				...Signal.from(error),
 				description: transl.translate('description')
 			});
 		}
