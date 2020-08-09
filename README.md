@@ -1,8 +1,6 @@
 # Pharmacy 4U
 > Online pharmacy for you
 
-[![BCH compliance](https://bettercodehub.com/edge/badge/vstan02/pharmacy-4u?branch=master)](https://bettercodehub.com/)
-
 ### Build Setup
 ```bash
 # install dependencies
