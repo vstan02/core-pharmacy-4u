@@ -1,0 +1,9 @@
+@import 'mixins/flex';
+
+.products {
+	padding: 10px 0;
+
+	&__list {
+		@include flex(space-around, center);
+	}
+}

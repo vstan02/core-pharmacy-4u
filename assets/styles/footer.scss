@@ -1,0 +1,55 @@
+@import 'mixins/flex';
+
+.footer {
+	color: white;
+	height: 250px;
+	background-color: black;
+	@include flex(space-around);
+
+	&__nav {
+		@include flex(center, center, column);
+	}
+
+	&__nav_title {
+		color: #999999;
+		margin: 10px 0;
+		font-size: 30px;
+	}
+
+	&__nav_list {
+		list-style: none;
+	}
+
+	&__nav_item {
+		padding: 5px;
+	}
+
+	&__nav_link {
+		color: white;
+		text-decoration: none;
+	}
+
+	&__content {
+		width: 50%;
+		@include flex(space-around, center, column);
+	}
+
+	&__about {
+		@include flex(space-around, normal, column);
+	}
+
+	&__title {
+		color: #00AAFF;
+		text-indent: 20px;
+		margin: 10px 0;
+		font-size: 35px;
+	}
+
+	&__description {
+		text-indent: 20px;
+	}
+
+	&__copyright {
+		color: #777777;
+	}
+}

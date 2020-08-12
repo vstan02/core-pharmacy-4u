@@ -1,0 +1,7 @@
+<article class="products">
+    <ul class="products__list">
+        <% for (const product of products) { %>
+            <%- include('./product', { product }) -%>
+        <% } %>
+    </ul>
+</article>

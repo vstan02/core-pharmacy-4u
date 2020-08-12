@@ -1,0 +1,13 @@
+@mixin input($width, $height) {
+	width: $width;
+	height: $height;
+	outline: none;
+	border: 1px solid #BBBBBB;
+	box-sizing: border-box;
+	padding: 0 10px;
+	font-size: 18px;
+
+	&:hover, &:focus {
+		border: 1px solid #00AAFF;
+	}
+}
