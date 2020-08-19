@@ -36,7 +36,7 @@ class StoreRoute extends Route {
 		this.$router.get('/products/:id?', this.readProducts.bind(this));
 		this.$router.post('/products', productMiddleware.post, this.createProduct.bind(this));
 		this.$router.put('/products/:id', productMiddleware.put, this.updateProduct.bind(this));
-		this.$router.delete('/products/:id', this.updateProduct.bind(this));
+		this.$router.delete('/products/:id', this.deleteProduct.bind(this));
 	}
 
 	private async readProducts(request: Request, response: Response): Promise<Response> {
