@@ -16,11 +16,36 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Collection from './Collection';
+import * as mongoose from 'mongoose';
 
-interface Database {
-	users: Collection<object>;
-	products: Collection<object>;
+import { Database, Collection } from '../database';
+import { UserModel, ProductModel } from '../models';
+
+import MongoCollection from './MongoCollection';
+
+class Mongo implements Database {
+	private $uri: string;
+
+	public constructor(uri: string) {
+		this.$uri = uri;
+	}
+
+	public connect(): void {
+		mongoose.connect(this.$uri, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true,
+			useFindAndModify: false
+		}).catch((error: Error) => { throw error });
+	}
+
+	public get users(): Collection<object> {
+		return new MongoCollection<object>(UserModel);
+	}
+
+	public get products(): Collection<object> {
+		return new MongoCollection<object>(ProductModel);
+	}
 }
 
-export default Database;
+export default Mongo;

@@ -31,26 +31,6 @@ describe('Repository', () => {
 		});
 	});
 
-	describe('posts', () => {
-		it('should be defined', () => {
-			expect(repo.posts).toBeDefined();
-		});
-
-		it('should be a collection', () => {
-			expect(isCollection(repo.posts)).toBe(true);
-		});
-	});
-
-	describe('categories', () => {
-		it('should be defined', () => {
-			expect(repo.categories).toBeDefined();
-		});
-
-		it('should be a collection', () => {
-			expect(isCollection(repo.categories)).toBe(true);
-		});
-	});
-
 	describe('products', () => {
 		it('should be defined', () => {
 			expect(repo.products).toBeDefined();
@@ -58,16 +38,6 @@ describe('Repository', () => {
 
 		it('should be a collection', () => {
 			expect(isCollection(repo.products)).toBe(true);
-		});
-	});
-
-	describe('comments', () => {
-		it('should be defined', () => {
-			expect(repo.comments).toBeDefined();
-		});
-
-		it('should be a collection', () => {
-			expect(isCollection(repo.comments)).toBe(true);
 		});
 	});
 });

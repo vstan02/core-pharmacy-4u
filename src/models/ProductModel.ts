@@ -16,11 +16,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Collection from './Collection';
+import { Schema, model } from 'mongoose';
 
-interface Database {
-	users: Collection<object>;
-	products: Collection<object>;
-}
+import Models from './models';
 
-export default Database;
+const schema = new Schema({
+	name: { type: String, required: true },
+	description: { type: String, required: true }
+});
+
+export default model(Models.PRODUCTS, schema);

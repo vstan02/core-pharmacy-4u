@@ -29,3 +29,6 @@ export const TOKEN_DURATION: string = process.env.TOKEN_SECRET || '1h';
 // Server:
 export const PORT = Number(process.env.PORT) || 3000;
 export const HOST = process.env.HOST || 'localhost';
+
+// Database:
+export const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/pharmacy';

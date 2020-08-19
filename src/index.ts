@@ -17,7 +17,7 @@
  */
 
 import { App } from './core';
-import { Repository } from './repository';
+import { Mongo } from './mongo';
 import { Server } from './server';
 
 import { IndexRoute } from './web';
@@ -27,7 +27,7 @@ import { StoreRoute } from './store';
 import * as config from './config';
 import { TOKEN_SECRET } from './config';
 
-const database = new Repository();
+const database = new Mongo(config.MONGO_URL);
 const app = new App(database);
 const server = new Server({
 	port: config.PORT,
@@ -48,10 +48,5 @@ server.routes = [
 	new StoreRoute('/store', app)
 ];
 
-app.users.create({ username: 'admin', password: 'test123' })
-   .then(() => console.log('Admin created!'));
-
-app.products.create({ name: 'Test', description: 'A test description' })
-   .then(() => console.log('Product created!'));
-
+database.connect();
 export default server.run();

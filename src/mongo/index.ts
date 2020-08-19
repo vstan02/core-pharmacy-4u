@@ -16,11 +16,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Collection from './Collection';
+import Mongo from './Mongo';
 
-interface Database {
-	users: Collection<object>;
-	products: Collection<object>;
-}
-
-export default Database;
+export { Mongo };

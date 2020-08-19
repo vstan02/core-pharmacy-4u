@@ -16,11 +16,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Collection from './Collection';
-
-interface Database {
-	users: Collection<object>;
-	products: Collection<object>;
+enum Models {
+	USERS = 'users',
+	PRODUCTS = 'products'
 }
 
-export default Database;
+export default Models;

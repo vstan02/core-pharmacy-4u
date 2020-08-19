@@ -22,10 +22,7 @@ import RepoCollection from './RepoCollection';
 
 enum CollectionIndex {
 	USERS,
-	PRODUCTS,
-	CATEGORIES,
-	POSTS,
-	COMMENTS
+	PRODUCTS
 }
 
 class Repository implements Database {
@@ -34,10 +31,7 @@ class Repository implements Database {
 	public constructor() {
 		this.$collections = new Map<CollectionIndex, any>()
 			.set(CollectionIndex.USERS, this.collection)
-			.set(CollectionIndex.PRODUCTS, this.collection)
-			.set(CollectionIndex.CATEGORIES, this.collection)
-			.set(CollectionIndex.POSTS, this.collection)
-			.set(CollectionIndex.COMMENTS, this.collection);
+			.set(CollectionIndex.PRODUCTS, this.collection);
 	}
 
 	private get collection(): Collection<object> {
@@ -50,18 +44,6 @@ class Repository implements Database {
 
 	public get products(): Collection<object> {
 		return this.$collections.get(CollectionIndex.PRODUCTS)!;
-	}
-
-	public get categories(): Collection<object> {
-		return this.$collections.get(CollectionIndex.CATEGORIES)!;
-	}
-
-	public get posts(): Collection<object> {
-		return this.$collections.get(CollectionIndex.POSTS)!;
-	}
-
-	public get comments(): Collection<object> {
-		return this.$collections.get(CollectionIndex.COMMENTS)!;
 	}
 }
 

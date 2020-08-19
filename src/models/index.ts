@@ -16,11 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Collection from './Collection';
+import UserModel from './UserModel';
+import ProductModel from './ProductModel';
 
-interface Database {
-	users: Collection<object>;
-	products: Collection<object>;
-}
-
-export default Database;
+export { UserModel, ProductModel };
