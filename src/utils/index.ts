@@ -16,13 +16,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Schema, model } from 'mongoose';
+import validateRequest from './validateRequest';
 
-import Models from './Models';
-
-const schema = new Schema({
-	username: { type: String, required: true, unique: true },
-	password: { type: String, required: true }
-});
-
-export default model(Models.USERS, schema);
+export { validateRequest };

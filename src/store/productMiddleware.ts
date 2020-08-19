@@ -16,13 +16,23 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Schema, model } from 'mongoose';
+import { check } from 'express-validator';
 
-import Models from './Models';
-
-const schema = new Schema({
-	username: { type: String, required: true, unique: true },
-	password: { type: String, required: true }
-});
-
-export default model(Models.USERS, schema);
+export default {
+	post: [
+		check('name')
+			.exists().withMessage('Name is required!')
+			.notEmpty().withMessage('Name is required!'),
+		check('description')
+			.exists().withMessage('Description is required!')
+			.notEmpty().withMessage('Description is required!')
+	],
+	put: [
+		check('name')
+			.optional()
+			.notEmpty().withMessage('Name is required!'),
+		check('description')
+			.optional()
+			.notEmpty().withMessage('Description is required!')
+	]
+};

@@ -21,8 +21,10 @@ import { Request, Response } from 'express';
 import { App } from '../core';
 import { Route } from '../routes';
 import { Signal, Status } from '../signals';
+import { validateRequest } from '../utils';
 
 import StoreService from './StoreService';
+import productMiddleware from './productMiddleware';
 
 class StoreRoute extends Route {
 	private $store: StoreService;
@@ -31,14 +33,52 @@ class StoreRoute extends Route {
 		super(path);
 		this.$store = new StoreService(app);
 
-		this.$router.get('/', this.read.bind(this));
+		this.$router.get('/products/:id?', this.readProducts.bind(this));
+		this.$router.post('/products', productMiddleware.post, this.createProduct.bind(this));
+		this.$router.put('/products/:id', productMiddleware.put, this.updateProduct.bind(this));
+		this.$router.delete('/products/:id', this.updateProduct.bind(this));
 	}
 
-	private async read(request: Request, response: Response): Promise<Response> {
+	private async readProducts(request: Request, response: Response): Promise<Response> {
 		try {
-			return response.json(new Signal(Status.OK, {
-				products: await this.$store.getAll()
-			}));
+			const { id } = request.params;
+			const result = id
+				? { product: await this.$store.getProduct(id) }
+				: { products: await this.$store.getProducts() };
+			return response.json(new Signal(Status.OK, result));
+		} catch (error) {
+			return response.json(Signal.from(error));
+		}
+	}
+
+	private async createProduct(request: Request, response: Response): Promise<Response> {
+		try {
+			validateRequest(request);
+			const { name, description } = request.body;
+			await this.$store.createProducts({ name, description });
+			return response.json(new Signal(Status.CREATED));
+		} catch (error) {
+			return response.json(Signal.from(error));
+		}
+	}
+
+	private async updateProduct(request: Request, response: Response): Promise<Response> {
+		try {
+			validateRequest(request);
+			const { id } = request.params;
+			const { name, description } = request.body;
+			await this.$store.updateProducts(id, { name, description });
+			return response.json(new Signal(Status.UPDATED));
+		} catch (error) {
+			return response.json(Signal.from(error));
+		}
+	}
+
+	private async deleteProduct(request: Request, response: Response): Promise<Response> {
+		try {
+			const { id } = request.params;
+			await this.$store.deleteProducts(id);
+			return response.json(new Signal(Status.UPDATED));
 		} catch (error) {
 			return response.json(Signal.from(error));
 		}

@@ -18,7 +18,7 @@
 
 import { Schema, model } from 'mongoose';
 
-import Models from './models';
+import Models from './Models';
 
 const schema = new Schema({
 	name: { type: String, required: true },

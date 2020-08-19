@@ -78,14 +78,14 @@ class MongoCollection<Type extends Entity> implements Collection<Type> {
 	}
 
 	private toSelect(fields?: Array<string>): object {
-		let select = {};
-
-		if (fields) {
-			fields.map((field: string) => {
-				select = { ...select, [field]: 1 };
-			});
+		if (!fields) {
+			return { __v: 0 };
 		}
 
+		let select = {};
+		fields.map((field: string) => {
+			select = { ...select, [field]: 1 };
+		});
 		return select;
 	}
 

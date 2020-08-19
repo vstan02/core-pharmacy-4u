@@ -26,8 +26,24 @@ class StoreService {
 		this.$products = app.products;
 	}
 
-	public async getAll(): Promise<object> {
+	public async getProduct(id: string): Promise<object> {
+		return this.$products.get(id);
+	}
+
+	public async getProducts(): Promise<object> {
 		return this.$products.getAll();
+	}
+
+	public async createProducts(product: object): Promise<void> {
+		await this.$products.create(product);
+	}
+
+	public async updateProducts(id: string, product: object): Promise<void> {
+		await this.$products.update(id, product);
+	}
+
+	public async deleteProducts(id: string): Promise<void> {
+		await this.$products.delete(id);
 	}
 }
 

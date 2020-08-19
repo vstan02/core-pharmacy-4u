@@ -16,13 +16,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Schema, model } from 'mongoose';
+import { Request } from 'express';
 
-import Models from './Models';
+import { Status, Signal } from '../signals';
 
-const schema = new Schema({
-	username: { type: String, required: true, unique: true },
-	password: { type: String, required: true }
-});
+import { validationResult } from 'express-validator';
 
-export default model(Models.USERS, schema);
+export default function (request: Request): void {
+	const errors = validationResult(request);
+
+	if (!errors.isEmpty()) {
+		throw new Signal(Status.INVALID_REQUEST, errors.array()[0].msg);
+	}
+}
