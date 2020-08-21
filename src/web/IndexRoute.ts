@@ -21,11 +21,28 @@ import { Request, Response } from 'express';
 import { Route } from '../routes';
 import { Signal, Status } from '../signals';
 import { Translator } from '../translator';
+import { Mailer } from '../mailer';
+import { validateRequest } from '../utils';
+
+import contactMiddleware from './contactMiddleware';
+import getMail from './getMail';
+
+interface WebConfig {
+	mailer: {
+		from: string;
+		to: string;
+	};
+}
 
 class IndexRoute extends Route {
-	public constructor(path: string) {
+	private $mailer: Mailer;
+
+	public constructor(path: string, { mailer }: WebConfig) {
 		super(path);
+		this.$mailer = new Mailer(mailer.from, mailer.to);
+
 		this.$router.get('/description', this.description);
+		this.$router.post('/contact', contactMiddleware, this.contact.bind(this));
 	}
 
 	private async description(request: Request, response: Response): Promise<Response> {
@@ -34,6 +51,17 @@ class IndexRoute extends Route {
 			return response.json(new Signal(Status.OK, {
 				description: transl.translate('description')
 			}));
+		} catch (error) {
+			return response.json(Signal.from(error));
+		}
+	}
+
+	private async contact(request: Request, response: Response): Promise<Response> {
+		try {
+			validateRequest(request);
+			const { name, email, content } = request.body;
+			this.$mailer.send('New Pharmacy 4U message!', getMail(name, email, content));
+			return response.json(new Signal(Status.OK));
 		} catch (error) {
 			return response.json(Signal.from(error));
 		}

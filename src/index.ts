@@ -25,7 +25,6 @@ import { AuthRoute } from './auth';
 import { StoreRoute } from './store';
 
 import * as config from './config';
-import { TOKEN_SECRET } from './config';
 
 const database = new Mongo(config.MONGO_URL);
 const app = new App(database);
@@ -35,15 +34,23 @@ const server = new Server({
 	translator: {
 		locales: config.TRANSL_LOCALES,
 		directory: config.TRANSL_DIR
+	},
+	mailer: {
+		apiKey: config.MAILGUN_KEY,
+		domain: config.MAILGUN_URL
 	}
 });
 
+const webConfig = {
+	mailer: { from: config.MAILER_FROM, to: config.MAILER_TO }
+};
+
 const authConfig = {
-	token: { duration: config.TOKEN_DURATION, secret: TOKEN_SECRET }
+	token: { duration: config.TOKEN_DURATION, secret: config.TOKEN_SECRET }
 };
 
 server.routes = [
-	new IndexRoute('/'),
+	new IndexRoute('/', webConfig),
 	new AuthRoute('/auth', app, authConfig),
 	new StoreRoute('/store', app)
 ];

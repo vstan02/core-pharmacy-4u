@@ -21,16 +21,23 @@ import * as cors from 'cors';
 
 import { Route } from '../routes';
 import { Translator } from '../translator';
+import { Mailer } from '../mailer';
 
 interface TranslatorConfig {
 	locales: Array<string>;
 	directory: string;
 }
 
+interface MailerConfig {
+	apiKey: string;
+	domain: string;
+}
+
 interface ServerConfig {
 	port: number;
 	host: string;
 	translator: TranslatorConfig;
+	mailer: MailerConfig;
 }
 
 class Server {
@@ -43,6 +50,7 @@ class Server {
 		this.$host = config.host;
 		this.$app = express();
 		this.translator = config.translator;
+		this.mailer = config.mailer;
 		this.middleware = [
 			cors(),
 			express.json()
@@ -80,6 +88,10 @@ class Server {
 
 	private set translator(config: TranslatorConfig) {
 		Translator.configure(config);
+	}
+
+	private set mailer(config: MailerConfig) {
+		Mailer.configure(config);
 	}
 
 	private set middleware(middleware: Array<express.RequestHandler>) {

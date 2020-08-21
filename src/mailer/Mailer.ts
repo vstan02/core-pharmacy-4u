@@ -19,23 +19,23 @@
 import * as mailgun from 'mailgun-js';
 
 interface MailerConfig {
-	from: string;
-	to: string;
 	domain: string;
 	apiKey: string;
 }
 
 class Mailer {
+	private static apiKey: string;
+	private static domain: string;
 	private $from: string;
 	private $to: string;
 	private $mailgun: mailgun.Mailgun;
 
-	public constructor(config: MailerConfig) {
-		this.$from = config.from;
-		this.$to = config.to;
+	public constructor(from: string, to: string) {
+		this.$from = from;
+		this.$to = to;
 		this.$mailgun = mailgun({
-			apiKey: config.apiKey,
-			domain: config.domain
+			apiKey: Mailer.apiKey,
+			domain: Mailer.domain
 		});
 	}
 
@@ -43,10 +43,15 @@ class Mailer {
 		this.$mailgun.messages()
 			.send({
 				subject,
-				text: content,
+				html: content,
 				from: this.$from,
 				to: this.$to
 			}).catch((error: Error) => { throw error });
+	}
+
+	public static configure(config: MailerConfig): void {
+		Mailer.apiKey = config.apiKey;
+		Mailer.domain = config.domain;
 	}
 }
 
