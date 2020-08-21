@@ -24,6 +24,7 @@
     "@types/express-validator": "^3.0.0",
     "@types/i18n": "^0.8.7",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/mailgun-js": "^0.22.10",
     "@types/mongoose": "^5.7.36",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -31,6 +32,7 @@
     "express-validator": "^6.6.1",
     "i18n": "^0.10.0",
     "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^5.10.0"
   },
   "devDependencies": {
