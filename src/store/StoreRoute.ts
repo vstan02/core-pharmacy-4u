@@ -55,8 +55,8 @@ class StoreRoute extends Route {
 		try {
 			validateRequest(request);
 			const { name, description } = request.body;
-			await this.$store.createProducts({ name, description });
-			return response.json(new Signal(Status.CREATED));
+			const product = await this.$store.createProducts({ name, description });
+			return response.json(new Signal(Status.CREATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
 		}

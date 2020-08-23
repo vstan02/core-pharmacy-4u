@@ -34,8 +34,9 @@ class StoreService {
 		return this.$products.getAll();
 	}
 
-	public async createProducts(product: object): Promise<void> {
-		await this.$products.create(product);
+	public async createProducts(product: object): Promise<object> {
+		const id = await this.$products.create(product);
+		return this.$products.get(id);
 	}
 
 	public async updateProducts(id: string, product: object): Promise<void> {
