@@ -67,8 +67,8 @@ class StoreRoute extends Route {
 			validateRequest(request);
 			const { id } = request.params;
 			const { name, description } = request.body;
-			await this.$store.updateProducts(id, { name, description });
-			return response.json(new Signal(Status.UPDATED));
+			const product = await this.$store.updateProducts(id, { name, description });
+			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
 		}
