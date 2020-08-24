@@ -31,11 +31,11 @@ export const PORT = Number(process.env.PORT) || 3000;
 export const HOST = process.env.HOST || 'localhost';
 
 // Database:
-export const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/pharmacy';
+export const MONGO_URL = process.env.MONGO_URL || 'mongodb+srv://vstan:stan2002@cluster0.cgerr.mongodb.net/pharmacy?retryWrites=true&w=majority';
 
 // Mailer:
 export const MAILER_FROM = process.env.MAILER_FROM || 'Pharmacy 4U' +
 	' <pharmacy@next-byte.com>';
-export const MAILER_TO = process.env.MAILER_TO || 'tenek38502@synevde.com';
+export const MAILER_TO = process.env.MAILER_TO || 'contact.viagra.enligne@gmail.com';
 export const MAILGUN_KEY = process.env.MAILGUN_KEY || 'b162ce3054c5caa0aafd65d395119cf2-203ef6d0-23082686';
 export const MAILGUN_URL = process.env.MAILGUN_URL || 'sandbox5d0ae916469b40e9b5cebbdcb40291b7.mailgun.org';
