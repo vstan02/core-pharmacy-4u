@@ -7,12 +7,12 @@
   "main": "dist/index.js",
   "license": "GPLV3",
   "scripts": {
-    "postinstall": "npm run lint",
+    "postinstall": "npm run lint && npm run build",
     "lint": "eslint 'src/**' --fix --ext .js,.ts",
     "build": "tsc -p .",
     "test": "jest --silent --forceExit --detectOpenHandles || true",
     "dev": "npm run lint && ts-node src/index.ts",
-    "start": "npm run build && NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production node dist/index.js"
   },
   "engines": {
     "node": ">= 12.0.0",
