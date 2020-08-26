@@ -25,7 +25,10 @@ export default {
 			.notEmpty().withMessage('Name is required!'),
 		check('description')
 			.exists().withMessage('Description is required!')
-			.notEmpty().withMessage('Description is required!')
+			.notEmpty().withMessage('Description is required!'),
+		check('link')
+			.exists().withMessage('Link is required!')
+			.notEmpty().withMessage('Link is required!')
 	],
 	put: [
 		check('name')
@@ -33,6 +36,9 @@ export default {
 			.notEmpty().withMessage('Name is required!'),
 		check('description')
 			.optional()
-			.notEmpty().withMessage('Description is required!')
+			.notEmpty().withMessage('Description is required!'),
+		check('link')
+			.optional()
+			.notEmpty().withMessage('Link is required!')
 	]
 };

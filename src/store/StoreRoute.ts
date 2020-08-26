@@ -54,8 +54,8 @@ class StoreRoute extends Route {
 	private async createProduct(request: Request, response: Response): Promise<Response> {
 		try {
 			validateRequest(request);
-			const { name, description } = request.body;
-			const product = await this.$store.createProducts({ name, description });
+			const { name, description, link } = request.body;
+			const product = await this.$store.createProducts({ name, description, link });
 			return response.json(new Signal(Status.CREATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
@@ -66,8 +66,8 @@ class StoreRoute extends Route {
 		try {
 			validateRequest(request);
 			const { id } = request.params;
-			const { name, description } = request.body;
-			const product = await this.$store.updateProducts(id, { name, description });
+			const { name, description, link } = request.body;
+			const product = await this.$store.updateProducts(id, { name, description, link });
 			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
