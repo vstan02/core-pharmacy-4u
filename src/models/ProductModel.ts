@@ -23,7 +23,8 @@ import Models from './Models';
 const schema = new Schema({
 	name: { type: String, required: true },
 	description: { type: String, required: true },
-	link: { type: String, required: true }
+	link: { type: String, required: true },
+	picture: { type: String, required: true }
 });
 
 export default model(Models.PRODUCTS, schema);

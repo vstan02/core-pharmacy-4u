@@ -18,11 +18,25 @@
 
 import { Request } from 'express';
 
-import { Status, Signal } from '../signals';
+import { Signal, Status } from '../signals';
 
 import { validationResult } from 'express-validator';
 
-export default function (request: Request): void {
+function capitalize(str: string): string {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function validateFields(request: Request, fields: Array<string>): void {
+	fields.map((field: string) => {
+		const descriptor = Object.getOwnPropertyDescriptor(request, field);
+		if (!descriptor || !descriptor.value) {
+			throw new Signal(Status.INVALID_REQUEST, `${ capitalize(field) } is required!`);
+		}
+	});
+}
+
+export default function (request: Request, fields?: Array<string>): void {
+	validateFields(request, fields || []);
 	const errors = validationResult(request);
 
 	if (!errors.isEmpty()) {

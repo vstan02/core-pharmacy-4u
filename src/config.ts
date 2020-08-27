@@ -29,6 +29,7 @@ export const TOKEN_DURATION: string = process.env.TOKEN_SECRET || '1h';
 // Server:
 export const PORT = Number(process.env.PORT) || 3000;
 export const HOST = process.env.HOST || '0.0.0.0';
+export const STATIC = process.env.STATIC || resolve(__dirname, '../public');
 
 // Database:
 export const MONGO_URL = process.env.MONGO_URL || 'mongodb+srv://vstan:stan2002@cluster0.cgerr.mongodb.net/pharmacy?retryWrites=true&w=majority';

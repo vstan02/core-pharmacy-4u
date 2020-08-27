@@ -26,16 +26,21 @@ import { validateRequest } from '../utils';
 import StoreService from './StoreService';
 import productMiddleware from './productMiddleware';
 
+interface StoreConfig {
+	upload: string;
+}
+
 class StoreRoute extends Route {
 	private $store: StoreService;
 
-	public constructor(path: string, app: App) {
+	public constructor(path: string, app: App, config: StoreConfig) {
 		super(path);
 		this.$store = new StoreService(app);
 
+		const middleware = productMiddleware(config);
 		this.$router.get('/products/:id?', this.readProducts.bind(this));
-		this.$router.post('/products', productMiddleware.post, this.createProduct.bind(this));
-		this.$router.put('/products/:id', productMiddleware.put, this.updateProduct.bind(this));
+		this.$router.post('/products', middleware.post, this.createProduct.bind(this));
+		this.$router.put('/products/:id', middleware.put, this.updateProduct.bind(this));
 		this.$router.delete('/products/:id', this.deleteProduct.bind(this));
 	}
 
@@ -53,9 +58,10 @@ class StoreRoute extends Route {
 
 	private async createProduct(request: Request, response: Response): Promise<Response> {
 		try {
-			validateRequest(request);
+			validateRequest(request, ['file']);
 			const { name, description, link } = request.body;
-			const product = await this.$store.createProducts({ name, description, link });
+			const { filename: picture } = request.file;
+			const product = await this.$store.createProducts({ name, description, link, picture });
 			return response.json(new Signal(Status.CREATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
@@ -67,7 +73,8 @@ class StoreRoute extends Route {
 			validateRequest(request);
 			const { id } = request.params;
 			const { name, description, link } = request.body;
-			const product = await this.$store.updateProducts(id, { name, description, link });
+			const { filename: picture } = request.file;
+			const product = await this.$store.updateProducts(id, { name, description, link, picture });
 			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));

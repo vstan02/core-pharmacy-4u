@@ -31,6 +31,7 @@ const app = new App(database);
 const server = new Server({
 	port: config.PORT,
 	host: config.HOST,
+	static: config.STATIC,
 	translator: {
 		locales: config.TRANSL_LOCALES,
 		directory: config.TRANSL_DIR
@@ -41,18 +42,14 @@ const server = new Server({
 	}
 });
 
-const webConfig = {
-	mailer: { from: config.MAILER_FROM, to: config.MAILER_TO }
-};
-
-const authConfig = {
-	token: { duration: config.TOKEN_DURATION, secret: config.TOKEN_SECRET }
-};
-
 server.routes = [
-	new IndexRoute('/', webConfig),
-	new AuthRoute('/auth', app, authConfig),
-	new StoreRoute('/store', app)
+	new IndexRoute('/', {
+		mailer: { from: config.MAILER_FROM, to: config.MAILER_TO }
+	}),
+	new AuthRoute('/auth', app, {
+		token: { duration: config.TOKEN_DURATION, secret: config.TOKEN_SECRET }
+	}),
+	new StoreRoute('/store', app, { upload: config.STATIC })
 ];
 
 database.connect();

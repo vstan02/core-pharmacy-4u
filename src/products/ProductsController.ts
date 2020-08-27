@@ -46,12 +46,13 @@ class ProductsController extends Controller<Product> {
 	}
 
 	public async update(id: string, data: Product): Promise<void> {
-		const { name, description, link } = data;
+		const { name, description, link, picture } = data;
 
 		return this.$products.update(id, Object.assign({},
 			name ? { name } : undefined,
 			description ? { description } : undefined,
-			link ? { link } : undefined
+			link ? { link } : undefined,
+			picture ? { picture } : undefined
 		));
 	}
 
@@ -60,13 +61,14 @@ class ProductsController extends Controller<Product> {
 	}
 
 	public async compare(id: string, entity: Product): Promise<boolean> {
-		const { name, description, link } = entity;
+		const { name, description, link, picture } = entity;
 		const product = await this.$products.get(id);
 
 		return (
 			name == product.name
 			&& description == product.description
 			&& link == product.link
+			&& picture == product.picture
 		);
 	}
 }

@@ -36,6 +36,7 @@ interface MailerConfig {
 interface ServerConfig {
 	port: number;
 	host: string;
+	static: string;
 	translator: TranslatorConfig;
 	mailer: MailerConfig;
 }
@@ -49,12 +50,10 @@ class Server {
 		this.$port = config.port;
 		this.$host = config.host;
 		this.$app = express();
+		this.static = config.static;
 		this.translator = config.translator;
 		this.mailer = config.mailer;
-		this.middleware = [
-			cors(),
-			express.json()
-		];
+		this.middleware = [cors(), express.json()];
 	}
 
 	public run(): void {
@@ -84,6 +83,10 @@ class Server {
 
 	public get port(): number {
 		return this.$port;
+	}
+
+	public set static(path: string) {
+		this.$app.use(express.static(path));
 	}
 
 	private set translator(config: TranslatorConfig) {
