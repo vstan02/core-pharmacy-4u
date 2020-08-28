@@ -71,7 +71,7 @@ class StoreRoute extends Route {
 		try {
 			validateRequest(request);
 			const { id } = request.params;
-			const { filename: picture } = request.file;
+			const picture = request.file ? request.file.filename : undefined;
 			const product = await this.$store.updateProducts(id, Object.assign({ picture }, request.body));
 			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
