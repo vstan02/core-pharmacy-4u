@@ -16,15 +16,20 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable */
+
 import { Schema, model } from 'mongoose';
 
 import Models from './Models';
 
 const schema = new Schema({
 	name: { type: String, required: true },
-	description: { type: String, required: true },
 	link: { type: String, required: true },
-	picture: { type: String, required: true }
+	picture: { type: String, required: true },
+	description_en: { type: String, required: true },
+	description_fr: { type: String, required: true },
+	description_it: { type: String, required: true },
+	description_de: { type: String, required: true },
 });
 
 export default model(Models.PRODUCTS, schema);

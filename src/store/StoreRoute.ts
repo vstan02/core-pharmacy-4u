@@ -59,9 +59,8 @@ class StoreRoute extends Route {
 	private async createProduct(request: Request, response: Response): Promise<Response> {
 		try {
 			validateRequest(request, ['file']);
-			const { name, description, link } = request.body;
 			const { filename: picture } = request.file;
-			const product = await this.$store.createProducts({ name, description, link, picture });
+			const product = await this.$store.createProducts(Object.assign({ picture }, request.body));
 			return response.json(new Signal(Status.CREATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
@@ -72,9 +71,8 @@ class StoreRoute extends Route {
 		try {
 			validateRequest(request);
 			const { id } = request.params;
-			const { name, description, link } = request.body;
 			const { filename: picture } = request.file;
-			const product = await this.$store.updateProducts(id, { name, description, link, picture });
+			const product = await this.$store.updateProducts(id, Object.assign({ picture }, request.body));
 			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));

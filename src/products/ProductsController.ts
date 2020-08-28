@@ -46,11 +46,22 @@ class ProductsController extends Controller<Product> {
 	}
 
 	public async update(id: string, data: Product): Promise<void> {
-		const { name, description, link, picture } = data;
+		const {
+			name, link, picture,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			description_de, description_en, description_fr, description_it
+		} = data;
 
 		return this.$products.update(id, Object.assign({},
 			name ? { name } : undefined,
-			description ? { description } : undefined,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			description_en ? { description_en } : undefined,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			description_fr ? { description_fr } : undefined,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			description_de ? { description_de } : undefined,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			description_it ? { description_it } : undefined,
 			link ? { link } : undefined,
 			picture ? { picture } : undefined
 		));
@@ -61,12 +72,11 @@ class ProductsController extends Controller<Product> {
 	}
 
 	public async compare(id: string, entity: Product): Promise<boolean> {
-		const { name, description, link, picture } = entity;
+		const { name, link, picture } = entity;
 		const product = await this.$products.get(id);
 
 		return (
 			name == product.name
-			&& description == product.description
 			&& link == product.link
 			&& picture == product.picture
 		);

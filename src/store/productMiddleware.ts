@@ -40,7 +40,7 @@ export default function (config: any): any {
 			check('name')
 				.exists().withMessage('Name is required!')
 				.notEmpty().withMessage('Name is required!'),
-			check('description')
+			check(['description_en', 'description_de', 'description_fr', 'description_it'])
 				.exists().withMessage('Description is required!')
 				.notEmpty().withMessage('Description is required!'),
 			check('link')
@@ -52,7 +52,7 @@ export default function (config: any): any {
 			check('name')
 				.optional()
 				.notEmpty().withMessage('Name is required!'),
-			check('description')
+			check(['description_en', 'description_de', 'description_fr', 'description_it'])
 				.optional()
 				.notEmpty().withMessage('Description is required!'),
 			check('link')

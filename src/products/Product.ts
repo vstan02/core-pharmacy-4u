@@ -20,9 +20,12 @@ import { Entity } from '../database';
 
 interface Product extends Entity {
 	name?: string;
-	description?: string;
 	link?: string;
 	picture?: string;
+	description_it?: string;
+	description_fr?: string;
+	description_de?: string;
+	description_en?: string;
 }
 
 export default Product;
