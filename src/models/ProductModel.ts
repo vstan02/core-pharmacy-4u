@@ -26,10 +26,10 @@ const schema = new Schema({
 	name: { type: String, required: true },
 	link: { type: String, required: true },
 	picture: { type: String, required: true },
-	description_en: { type: String, required: true },
-	description_fr: { type: String, required: true },
-	description_it: { type: String, required: true },
-	description_de: { type: String, required: true },
+	description_en: { type: String, default: '' },
+	description_fr: { type: String, default: '' },
+	description_it: { type: String, default: '' },
+	description_de: { type: String, default: '' },
 });
 
 export default model(Models.PRODUCTS, schema);

@@ -41,7 +41,7 @@ export default function (config: any): any {
 				.exists().withMessage('Name is required!')
 				.notEmpty().withMessage('Name is required!'),
 			check(['description_en', 'description_de', 'description_fr', 'description_it'])
-				.exists().withMessage('Description is required!')
+				.optional()
 				.notEmpty().withMessage('Description is required!'),
 			check('link')
 				.exists().withMessage('Link is required!')
