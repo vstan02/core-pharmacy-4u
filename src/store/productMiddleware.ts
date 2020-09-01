@@ -52,8 +52,7 @@ export default function (config: any): any {
 				.optional()
 				.notEmpty().withMessage('Name is required!'),
 			check(['description_en', 'description_de', 'description_fr', 'description_it'])
-				.optional()
-				.notEmpty().withMessage('Description is required!'),
+				.optional(),
 			check('link')
 				.optional()
 				.notEmpty().withMessage('Link is required!')
