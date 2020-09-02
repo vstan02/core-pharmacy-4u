@@ -26,21 +26,16 @@ import { validateRequest } from '../utils';
 import StoreService from './StoreService';
 import productMiddleware from './productMiddleware';
 
-interface StoreConfig {
-	upload: string;
-}
-
 class StoreRoute extends Route {
 	private $store: StoreService;
 
-	public constructor(path: string, app: App, config: StoreConfig) {
+	public constructor(path: string, app: App) {
 		super(path);
 		this.$store = new StoreService(app);
 
-		const middleware = productMiddleware(config);
 		this.$router.get('/products/:id?', this.readProducts.bind(this));
-		this.$router.post('/products', middleware.post, this.createProduct.bind(this));
-		this.$router.put('/products/:id', middleware.put, this.updateProduct.bind(this));
+		this.$router.post('/products', productMiddleware.post, this.createProduct.bind(this));
+		this.$router.put('/products/:id', productMiddleware.put, this.updateProduct.bind(this));
 		this.$router.delete('/products/:id', this.deleteProduct.bind(this));
 	}
 
@@ -58,9 +53,8 @@ class StoreRoute extends Route {
 
 	private async createProduct(request: Request, response: Response): Promise<Response> {
 		try {
-			validateRequest(request, ['file']);
-			const { filename: picture } = request.file;
-			const product = await this.$store.createProducts(Object.assign({ picture }, request.body));
+			validateRequest(request);
+			const product = await this.$store.createProducts(request.body);
 			return response.json(new Signal(Status.CREATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));
@@ -71,8 +65,7 @@ class StoreRoute extends Route {
 		try {
 			validateRequest(request);
 			const { id } = request.params;
-			const picture = request.file ? request.file.filename : undefined;
-			const product = await this.$store.updateProducts(id, Object.assign({ picture }, request.body));
+			const product = await this.$store.updateProducts(id, request.body);
 			return response.json(new Signal(Status.UPDATED, { product }));
 		} catch (error) {
 			return response.json(Signal.from(error));

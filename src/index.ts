@@ -49,7 +49,7 @@ server.routes = [
 	new AuthRoute('/auth', app, {
 		token: { duration: config.TOKEN_DURATION, secret: config.TOKEN_SECRET }
 	}),
-	new StoreRoute('/store', app, { upload: config.STATIC })
+	new StoreRoute('/store', app)
 ];
 
 database.connect();

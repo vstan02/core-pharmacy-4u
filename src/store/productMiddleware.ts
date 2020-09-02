@@ -16,46 +16,33 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as path from 'path';
 import { check } from 'express-validator';
-import * as multer from 'multer';
 
-function storage(upload: string): multer.StorageEngine {
-	return multer.diskStorage({
-		destination(req, file, done) {
-			return done(null, upload);
-		},
-		filename(req, file, done) {
-			return done(null, Date.now() + path.extname(file.originalname));
-		}
-	});
-}
-
-export default function (config: any): any {
-	const upload = multer({ storage: storage(config.upload) });
-
-	return {
-		post: [
-			upload.single('picture'),
-			check('name')
-				.exists().withMessage('Name is required!')
-				.notEmpty().withMessage('Name is required!'),
-			check(['description_en', 'description_de', 'description_fr', 'description_it'])
-				.optional(),
-			check('link')
-				.exists().withMessage('Link is required!')
-				.notEmpty().withMessage('Link is required!')
-		],
-		put: [
-			upload.single('picture'),
-			check('name')
-				.optional()
-				.notEmpty().withMessage('Name is required!'),
-			check(['description_en', 'description_de', 'description_fr', 'description_it'])
-				.optional(),
-			check('link')
-				.optional()
-				.notEmpty().withMessage('Link is required!')
-		]
-	};
+export default {
+	post: [
+		check('name')
+			.exists().withMessage('Name is required!')
+			.notEmpty().withMessage('Name is required!'),
+		check(['description_en', 'description_de', 'description_fr', 'description_it'])
+			.optional(),
+		check('link')
+			.exists().withMessage('Link is required!')
+			.notEmpty().withMessage('Link is required!'),
+		check('picture')
+			.exists().withMessage('Picture link is required!')
+			.notEmpty().withMessage('Picture link is required!')
+	],
+	put: [
+		check('name')
+			.optional()
+			.notEmpty().withMessage('Name is required!'),
+		check(['description_en', 'description_de', 'description_fr', 'description_it'])
+			.optional(),
+		check('link')
+			.optional()
+			.notEmpty().withMessage('Link is required!'),
+		check('picture')
+			.optional()
+			.notEmpty().withMessage('Picture link is required!')
+	]
 };
